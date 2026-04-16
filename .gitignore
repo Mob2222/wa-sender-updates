@@ -1,0 +1,21 @@
+*.pem
+*.crx
+*.zip
+whatsapp-sender/_metadata/
+
+# Claude Code
+.claude/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Build artifacts
+dist/
+build/
+check/

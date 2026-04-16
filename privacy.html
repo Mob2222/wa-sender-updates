@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Политика конфиденциальности — WhatsApp Bulk Sender</title>
+<style>
+  :root {
+    --primary: #0D7377;
+    --primary-dark: #0A5C5E;
+    --gold: #C9A84C;
+    --bg: #F8F5EE;
+    --card: #FFFFFF;
+    --text: #1A2332;
+    --muted: #6B7B8D;
+    --border: #E2DDD3;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.65; padding: 40px 20px;
+  }
+  .container {
+    max-width: 820px; margin: 0 auto;
+    background: var(--card); padding: 48px 56px;
+    border-radius: 12px; border: 1px solid var(--border);
+    box-shadow: 0 2px 30px rgba(0,0,0,0.04);
+  }
+  .header {
+    border-bottom: 3px solid var(--gold);
+    padding-bottom: 18px; margin-bottom: 28px;
+  }
+  h1 {
+    font-size: 28px; color: var(--primary-dark);
+    margin-bottom: 6px; font-weight: 700;
+  }
+  h2 {
+    font-size: 19px; color: var(--primary);
+    margin: 32px 0 12px; padding-left: 12px;
+    border-left: 3px solid var(--gold);
+  }
+  h3 { font-size: 15px; color: var(--primary-dark); margin: 18px 0 8px; }
+  p, li { margin-bottom: 10px; color: var(--text); font-size: 15px; }
+  ul, ol { padding-left: 24px; margin-bottom: 14px; }
+  .updated { color: var(--muted); font-size: 13px; }
+  table {
+    width: 100%; border-collapse: collapse;
+    margin: 14px 0; font-size: 14px;
+  }
+  th, td {
+    padding: 10px 12px; text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th { background: var(--bg); color: var(--primary-dark); font-weight: 600; }
+  code {
+    background: var(--bg); padding: 2px 6px;
+    border-radius: 3px; font-size: 13px;
+    font-family: "SF Mono", Consolas, monospace;
+    color: var(--primary-dark);
+  }
+  pre {
+    background: var(--bg); padding: 12px 16px;
+    border-radius: 6px; overflow-x: auto;
+    font-size: 13px; border-left: 3px solid var(--primary);
+    margin: 12px 0;
+  }
+  a { color: var(--primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .warn {
+    background: #FBF5E4; border-left: 4px solid var(--gold);
+    padding: 12px 16px; border-radius: 6px; margin: 14px 0;
+  }
+  .footer {
+    margin-top: 40px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 13px; font-style: italic;
+  }
+  hr {
+    border: none; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 30px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+  <h1>Политика конфиденциальности</h1>
+  <p class="updated">Расширение <strong>WhatsApp Bulk Sender</strong> &bull; Последнее обновление: 14 апреля 2026 г.</p>
+</div>
+
+<h2>1. Общие положения</h2>
+<p>Настоящая Политика конфиденциальности описывает, какую информацию собирает, использует и хранит расширение браузера Google Chrome <strong>«WhatsApp Bulk Sender»</strong> (далее — «Расширение»).</p>
+<p>Используя Расширение, Вы соглашаетесь с условиями настоящей Политики.</p>
+
+<h2>2. Какие данные собираются</h2>
+<p>Расширение <strong>НЕ собирает и НЕ передаёт</strong> персональные данные на внешние серверы. Все данные хранятся <strong>локально на устройстве пользователя</strong> через Chrome Storage API (<code>chrome.storage.local</code>) и никогда не покидают устройство пользователя, за исключением случаев, описанных в разделе 5.</p>
+
+<h3>2.1. Данные, хранящиеся локально:</h3>
+<table>
+<thead><tr><th>Данные</th><th>Назначение</th><th>Срок хранения</th></tr></thead>
+<tbody>
+<tr><td>Список номеров телефонов получателей</td><td>Для отправки сообщений через WhatsApp Web</td><td>До ручного удаления</td></tr>
+<tr><td>Имена получателей (если указаны)</td><td>Для подстановки <code>{name}</code> в шаблоны</td><td>До ручного удаления</td></tr>
+<tr><td>Шаблоны текстовых сообщений</td><td>Для повторного использования</td><td>До ручного удаления</td></tr>
+<tr><td>Сохранённые очереди номеров</td><td>Для повторного использования</td><td>До ручного удаления</td></tr>
+<tr><td>Прикреплённые медиа-файлы</td><td>Для прикрепления к рассылке</td><td>До ручного удаления</td></tr>
+<tr><td>Настройки (задержка, язык)</td><td>Для работы расширения</td><td>До ручного удаления</td></tr>
+<tr><td>Прогресс и журнал рассылки</td><td>Для отображения статистики</td><td>До ручного удаления</td></tr>
+</tbody>
+</table>
+
+<h3>2.2. Что НЕ собирается:</h3>
+<ul>
+<li>Личные данные пользователя (имя, email, телефон аккаунта)</li>
+<li>История переписки в WhatsApp</li>
+<li>Учётные данные, пароли, cookies, токены</li>
+<li>Геолокация</li>
+<li>Данные о других сайтах, посещаемых пользователем</li>
+<li>Аналитика, телеметрия, рекламные идентификаторы</li>
+</ul>
+
+<h2>3. Как используются данные</h2>
+<p>Введённые пользователем данные используются <strong>только</strong> для выполнения функций Расширения: отправка текстовых сообщений и медиа через открытую вкладку <code>web.whatsapp.com</code>, подстановка имени получателя в шаблон, отображение статистики, сохранение шаблонов и очередей.</p>
+<p>Никакой обработки, агрегирования, анализа или продажи данных не производится.</p>
+
+<h2>4. Передача данных третьим лицам</h2>
+<p>Расширение <strong>не передаёт</strong> пользовательские данные третьим лицам, рекламным сетям, аналитическим системам или разработчику.</p>
+
+<h2>5. Внешние сетевые соединения</h2>
+<p>Расширение выполняет ограниченный набор внешних соединений, <strong>не содержащих</strong> пользовательских данных:</p>
+
+<h3>5.1. Загрузка библиотеки WhatsApp API (wa-js)</h3>
+<p>При первом открытии <code>web.whatsapp.com</code> Расширение загружает open-source библиотеку <code>@wppconnect/wa-js</code> с публичного CDN:</p>
+<pre>https://cdn.jsdelivr.net/npm/@wppconnect/wa-js@3.23.3/dist/wppconnect-wa.js</pre>
+<p>Библиотека необходима для взаимодействия с внутренним API WhatsApp Web. При этой загрузке передаются только стандартные HTTP-заголовки браузера (User-Agent, IP). Номера, тексты и вложения <strong>не отправляются</strong>.</p>
+<p>Исходный код библиотеки: <a href="https://github.com/wppconnect-team/wa-js">github.com/wppconnect-team/wa-js</a></p>
+
+<h3>5.2. Проверка обновлений</h3>
+<p>Раз в 6 часов Расширение запрашивает файл <code>version.json</code> с настроенного сервера обновлений, чтобы узнать актуальную версию. Пользовательские данные не передаются.</p>
+
+<h3>5.3. Отправка сообщений через WhatsApp Web</h3>
+<p>Сами сообщения отправляются <strong>через официальный веб-интерфейс</strong> WhatsApp Web в контексте Вашего аккаунта WhatsApp — так же, как если бы Вы отправляли их вручную. Разработчик Расширения <strong>не имеет доступа</strong> к Вашему аккаунту, номеру, переписке или содержимому сообщений.</p>
+
+<h2>6. Разрешения расширения</h2>
+<table>
+<thead><tr><th>Разрешение</th><th>Назначение</th></tr></thead>
+<tbody>
+<tr><td><code>storage</code></td><td>Локальное хранение шаблонов, очередей, прогресса</td></tr>
+<tr><td><code>tabs</code></td><td>Поиск открытой вкладки <code>web.whatsapp.com</code></td></tr>
+<tr><td><code>scripting</code></td><td>Выполнение content-скрипта в контексте WhatsApp Web</td></tr>
+<tr><td><code>declarativeNetRequest</code></td><td>Удаление CSP-заголовков <strong>только</strong> на <code>web.whatsapp.com</code></td></tr>
+<tr><td><code>alarms</code></td><td>Периодическая проверка обновлений раз в 6 часов</td></tr>
+<tr><td><code>host_permissions: https://web.whatsapp.com/*</code></td><td>Единственный домен, на котором работает расширение</td></tr>
+</tbody>
+</table>
+<p>Расширение <strong>не имеет доступа</strong> к другим сайтам, которые Вы посещаете.</p>
+
+<h2>7. Безопасность</h2>
+<ul>
+<li>Все пользовательские данные хранятся в зашифрованном профиле Chrome.</li>
+<li>Расширение не использует внешние серверы для хранения данных.</li>
+<li>Открытый исходный код расширения доступен для аудита.</li>
+</ul>
+
+<h2>8. Права пользователя</h2>
+<p>Вы можете в любой момент:</p>
+<ul>
+<li><strong>Удалить все сохранённые данные</strong>, удалив расширение через <code>chrome://extensions</code>.</li>
+<li><strong>Очистить отдельные шаблоны или очереди</strong> внутри интерфейса (кнопка ✕).</li>
+<li><strong>Отключить авто-проверку обновлений</strong>, отключив расширение.</li>
+</ul>
+
+<h2>9. Дети</h2>
+<p>Расширение не предназначено для использования лицами младше 18 лет и не собирает данные от детей.</p>
+
+<h2>10. Ответственное использование</h2>
+<div class="warn">
+<strong>Внимание:</strong> Массовая рассылка сообщений без согласия получателей нарушает условия WhatsApp LLC, Закон РК № 94-V «О персональных данных», и GDPR.
+</div>
+<p>Пользователь Расширения <strong>самостоятельно несёт ответственность</strong> за получение согласия получателей, соответствие рассылки законодательству и возможную блокировку своего WhatsApp-аккаунта.</p>
+<p>Разработчик Расширения <strong>не несёт ответственности</strong> за последствия использования.</p>
+
+<h2>11. Изменения в Политике</h2>
+<p>При внесении изменений обновлённая версия публикуется по тому же URL, дата в шапке обновляется. Существенные изменения объявляются в релизных заметках.</p>
+
+<h2>12. Контакты</h2>
+<p>По вопросам Политики:</p>
+<ul>
+<li><strong>Email:</strong> <a href="mailto:tsyganov.vova.02@gmail.com">tsyganov.vova.02@gmail.com</a></li>
+<li><strong>GitHub:</strong> <a href="https://github.com/Mob2222">github.com/Mob2222</a></li>
+</ul>
+
+<div class="footer">
+Настоящая Политика составлена в соответствии с требованиями Chrome Web Store Developer Program Policies и Закона Республики Казахстан № 94-V «О персональных данных и их защите».
+</div>
+
+</div>
+
+</body>
+</html>

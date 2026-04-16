@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --primary: #0D7377;
+    --primary-dark: #0A5C5E;
+    --primary-light: #14919B;
+    --gold: #C9A84C;
+    --gold-light: #E8D48B;
+    --gold-dark: #A88A30;
+    --bg: #F8F5EE;
+    --card: #FFFFFF;
+    --text: #1A2332;
+    --muted: #6B7B8D;
+    --border: #E2DDD3;
+    --border-light: #F0EDE6;
+    --success: #2E8B57;
+    --error: #C0392B;
+    --pending: #D4A017;
+    --hover: #FAF8F3;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    width: 500px; background: var(--bg); color: var(--text);
+  }
+
+  /* ===== Header ===== */
+  .header {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+    position: relative; overflow: hidden;
+  }
+  .header-bar {
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+  }
+  .header-body {
+    padding: 14px 20px;
+    display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1; color: #fff;
+  }
+  .header::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 0L24 12L12 24L0 12Z' fill='white'/%3E%3C/svg%3E");
+    background-size: 24px 24px;
+    opacity: 0.04;
+  }
+  .header-icon {
+    width: 42px; height: 42px;
+    background: rgba(255,255,255,0.13);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .header h2 { font-size: 15px; font-weight: 700; }
+  .header p  { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+
+  .content { padding: 16px 20px 20px; }
+
+  /* ===== Ornamental divider ===== */
+  .ornament {
+    display: flex; align-items: center; gap: 10px;
+    margin: 18px 0 10px;
+    color: var(--gold); font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px;
+  }
+  .ornament::before, .ornament::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-light) 50%, transparent);
+  }
+
+  /* ===== Section label ===== */
+  .section-label {
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.4px;
+    color: var(--muted); margin-bottom: 6px;
+  }
+
+  /* ===== Inputs ===== */
+  textarea, input[type=number], input[type=text] {
+    width: 100%; padding: 12px 14px;
+    border: 1px solid var(--border); border-radius: 8px;
+    font-family: inherit; font-size: 14px;
+    background: var(--card); color: var(--text);
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  textarea:focus, input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(13,115,119,0.08);
+  }
+  textarea {
+    resize: vertical; line-height: 1.55;
+    font-family: "SF Mono", Consolas, "Cascadia Code", monospace; font-size: 14px;
+    min-height: 80px;
+  }
+  input[type=number] { width: 82px; text-align: center; }
+
+  .hint {
+    font-size: 10px; color: var(--muted); margin-top: 5px; line-height: 1.5;
+  }
+  .hint code {
+    background: #EAE6DC; padding: 1px 5px; border-radius: 3px;
+    font-size: 10px; font-family: "SF Mono", Consolas, monospace;
+  }
+
+  /* ===== Card ===== */
+  .card {
+    background: var(--card); border-radius: 10px;
+    border: 1px solid var(--border); overflow: hidden;
+  }
+
+  /* ===== Templates list ===== */
+  .templates-list { max-height: 200px; overflow-y: auto; }
+  .templates-list::-webkit-scrollbar { width: 4px; }
+  .templates-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .template-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border-light);
+    transition: background 0.12s;
+  }
+  .template-item:last-child { border-bottom: none; }
+  .template-item:hover { background: var(--hover); }
+  .template-item.checked { background: #EFF9F8; }
+
+  /* Custom checkbox */
+  .tpl-cb {
+    appearance: none; -webkit-appearance: none;
+    width: 18px; height: 18px; flex-shrink: 0;
+    border: 2px solid var(--border); border-radius: 4px;
+    cursor: pointer; position: relative;
+    transition: all 0.15s;
+  }
+  .tpl-cb:checked {
+    background: var(--primary); border-color: var(--primary);
+  }
+  .tpl-cb:checked::after {
+    content: '\2713'; position: absolute;
+    inset: 0; display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 12px; font-weight: 700;
+  }
+
+  .tpl-info { flex: 1; min-width: 0; cursor: pointer; }
+  .tpl-name {
+    font-size: 13px; font-weight: 600; color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .tpl-preview {
+    font-size: 11px; color: var(--muted); margin-top: 1px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .tpl-actions {
+    display: flex; gap: 2px; opacity: 0; transition: opacity 0.15s;
+  }
+  .template-item:hover .tpl-actions { opacity: 1; }
+  .tpl-act-btn {
+    background: none; border: none; font-size: 14px; cursor: pointer;
+    padding: 3px 5px; border-radius: 4px; color: var(--muted);
+    transition: all 0.12s; line-height: 1;
+  }
+  .tpl-act-btn:hover { color: var(--primary); background: rgba(13,115,119,0.08); }
+  .tpl-act-btn.del:hover { color: var(--error); background: rgba(192,57,43,0.06); }
+
+  .templates-empty {
+    padding: 24px 12px; text-align: center;
+    color: var(--muted); font-size: 12px;
+  }
+
+  /* ===== Template editor ===== */
+  .tpl-editor {
+    display: none; padding: 12px;
+    background: #FAF8F2; border-top: 1px solid var(--border-light);
+  }
+  .tpl-editor.active { display: block; }
+  .tpl-editor input { margin-bottom: 8px; }
+  .tpl-editor textarea { margin-bottom: 6px; }
+  .tpl-editor-btns { display: flex; gap: 6px; justify-content: flex-end; margin-top: 8px; }
+
+  .btn-sm {
+    padding: 6px 14px; border-radius: 6px; font-size: 12px;
+    font-weight: 600; cursor: pointer; border: none; transition: all 0.15s;
+  }
+  .btn-sm-primary { background: var(--primary); color: #fff; }
+  .btn-sm-primary:hover { background: var(--primary-dark); }
+  .btn-sm-ghost { background: none; color: var(--muted); border: 1px solid var(--border); }
+  .btn-sm-ghost:hover { background: var(--hover); color: var(--text); }
+
+  .btn-add-tpl {
+    display: block; width: 100%;
+    padding: 9px; margin: 0;
+    background: none; border: none; border-top: 1px solid var(--border-light);
+    color: var(--primary); font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: background 0.12s;
+  }
+  .btn-add-tpl:hover { background: #EFF9F8; }
+
+  /* ===== Selected badge ===== */
+  .selected-badge {
+    display: none; align-items: center; gap: 8px;
+    margin-top: 8px; padding: 8px 12px;
+    background: linear-gradient(135deg, #EFF9F8, #F6F9EE);
+    border: 1px solid #D0E8E4; border-radius: 8px;
+    font-size: 11px; color: var(--primary);
+  }
+  .selected-badge.active { display: flex; }
+  .selected-badge strong { color: var(--primary-dark); }
+
+  /* ===== File drop ===== */
+  .file-drop {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 14px; border: 1.5px dashed var(--border); border-radius: 8px;
+    background: var(--card); cursor: pointer; transition: all 0.15s; text-align: center;
+  }
+  .file-drop:hover { border-color: var(--primary); background: #F0F9F9; }
+  .file-drop.has-file { border-style: solid; border-color: var(--primary); background: #F0F9F9; }
+  .file-drop input { display: none; }
+  .file-drop-icon { font-size: 20px; opacity: 0.5; }
+  .file-drop-text { font-size: 12px; color: var(--muted); }
+  #mediaInfo { font-size: 12px; color: var(--primary); font-weight: 500; }
+  #clearMedia {
+    background: none; border: none; color: var(--error);
+    font-size: 11px; cursor: pointer; margin-top: 4px; padding: 2px 6px;
+  }
+  #clearMedia:hover { text-decoration: underline; }
+
+  /* ===== Delay row ===== */
+  .delay-row {
+    display: flex; align-items: center; gap: 8px; margin-top: 14px;
+  }
+  .delay-row .section-label { margin: 0; }
+  .delay-unit { font-size: 12px; color: var(--muted); }
+
+  /* ===== Buttons ===== */
+  .buttons { display: flex; gap: 8px; margin-top: 14px; }
+  .btn-start {
+    flex: 1; padding: 12px;
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: #fff; border: none; border-radius: 8px;
+    font-weight: 600; font-size: 13px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-start:hover { background: linear-gradient(135deg, var(--primary), var(--primary-light)); box-shadow: 0 2px 10px rgba(13,115,119,0.25); }
+  .btn-start:disabled { background: #B8C4C9; cursor: not-allowed; box-shadow: none; }
+  .btn-stop {
+    padding: 12px 18px;
+    background: var(--card); color: var(--muted);
+    border: 1px solid var(--border); border-radius: 8px;
+    font-weight: 600; font-size: 13px; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-stop:hover { background: #FDF0EF; border-color: var(--error); color: var(--error); }
+
+  /* ===== Stats ===== */
+  .stats { display: none; margin-top: 14px; }
+  .stats.active { display: block; }
+  .stats-card {
+    background: var(--card); border-radius: 10px; padding: 12px;
+    border: 1px solid var(--border);
+  }
+  .progress-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .progress-label { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .progress-count { font-size: 13px; color: var(--text); font-weight: 700; }
+  .progress-bar { height: 6px; background: #EAE6DC; border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary-dark), var(--primary-light)); width: 0%; transition: width 0.3s; border-radius: 3px; }
+  .counters { display: flex; gap: 8px; margin-top: 10px; }
+  .counter { flex: 1; text-align: center; padding: 8px 4px; border-radius: 6px; background: var(--hover); }
+  .counter-value { font-size: 16px; font-weight: 700; line-height: 1; }
+  .counter-label { font-size: 9px; color: var(--muted); text-transform: uppercase; margin-top: 3px; letter-spacing: 0.3px; }
+  .c-success .counter-value { color: var(--success); }
+  .c-error .counter-value { color: var(--error); }
+  .c-pending .counter-value { color: var(--pending); }
+
+  /* ===== Results ===== */
+  .results { display: none; margin-top: 8px; }
+  .results.active { display: block; }
+  .results-card {
+    background: var(--card); border-radius: 10px;
+    border: 1px solid var(--border); max-height: 150px; overflow-y: auto;
+  }
+  .results-header {
+    position: sticky; top: 0; background: var(--hover);
+    padding: 6px 10px; font-size: 10px; font-weight: 600;
+    color: var(--muted); text-transform: uppercase;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .result-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 5px 10px; font-size: 11px;
+    border-bottom: 1px solid var(--border-light);
+    font-family: "SF Mono", Consolas, monospace;
+  }
+  .result-item:last-child { border-bottom: none; }
+  .result-icon { font-size: 11px; width: 14px; }
+  .result-ok { color: var(--success); }
+  .result-err { color: var(--error); }
+  .result-num { font-weight: 500; color: var(--text); }
+  .result-msg { color: var(--muted); font-size: 10px; margin-left: auto; }
+
+  /* ===== Update bar ===== */
+  .update-bar {
+    display: none; align-items: center; justify-content: space-between;
+    padding: 8px 20px;
+    background: linear-gradient(135deg, #FBF5E4, #FFF8E7);
+    border-bottom: 1px solid var(--gold-light);
+    font-size: 12px; color: var(--gold-dark);
+  }
+  .update-bar.active { display: flex; }
+  .update-btn {
+    background: var(--gold); color: #fff;
+    padding: 4px 14px; border-radius: 6px;
+    text-decoration: none; font-weight: 600; font-size: 11px;
+    transition: background 0.15s;
+  }
+  .update-btn:hover { background: var(--gold-dark); }
+
+  /* ===== Toast ===== */
+  #toast {
+    position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+    background: var(--text); color: #fff;
+    padding: 8px 16px; border-radius: 8px;
+    font-size: 12px; z-index: 999;
+    opacity: 0; transition: opacity 0.3s; pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-bar"></div>
+  <div class="header-body">
+    <div class="header-icon">💬</div>
+    <div>
+      <h2>WhatsApp Sender</h2>
+      <p>Kazakh Edition &bull; v2.0</p>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+</div>
+
+<!-- Update notification -->
+<div class="update-bar" id="updateBar">
+  <span>&#11014;&#65039; Доступна v<strong id="updateVer"></strong></span>
+  <a id="updateLink" href="#" target="_blank" class="update-btn">Скачать</a>
+</div>
+
+<div class="content">
+
+  <!-- Recipients -->
+  <div class="section-label">Номера получателей</div>
+  <textarea id="numbers" rows="9" placeholder="77011234567&#10;87029876543,Иван"></textarea>
+  <div class="hint">Один номер в строке. Формат: <code>77011234567,Имя</code> для подстановки <code>{name}</code>. Дубли удаляются.</div>
+
+  <!-- ===== NUMBER QUEUES ===== -->
+  <div class="ornament">&#9670; Очереди номеров &#9670;</div>
+
+  <div class="card">
+    <div class="templates-list" id="queuesList">
+      <div class="templates-empty" id="queueEmpty">Нет сохранённых очередей</div>
+    </div>
+    <div class="tpl-editor" id="queueEditor">
+      <input type="text" id="queueName" placeholder="Название очереди (напр. «Клиенты 2024»)">
+      <textarea id="queueText" rows="12" placeholder="77011234567&#10;87029876543,Иван&#10;..."></textarea>
+      <div class="hint">Один номер в строке. Те же правила, что у поля выше.</div>
+      <div class="tpl-editor-btns">
+        <button class="btn-sm btn-sm-ghost" id="queueCancel">Отмена</button>
+        <button class="btn-sm btn-sm-primary" id="queueSave">Сохранить</button>
+      </div>
+    </div>
+    <button class="btn-add-tpl" id="btnNewQueue">+ Добавить очередь</button>
+  </div>
+
+  <div class="selected-badge" id="selectedQueueBadge">
+    <span>&#128101;</span>
+    <span>Выбрано очередей: <strong id="selectedQueueCount">0</strong> &mdash; номера объединятся с полем выше</span>
+  </div>
+
+  <!-- ===== TEMPLATES ===== -->
+  <div class="ornament">&#9670; Шаблоны сообщений &#9670;</div>
+
+  <div class="card">
+    <div class="templates-list" id="templatesList">
+      <div class="templates-empty" id="tplEmpty">Нет шаблонов &mdash; создайте первый</div>
+    </div>
+    <div class="tpl-editor" id="tplEditor">
+      <input type="text" id="tplName" placeholder="Название шаблона">
+      <textarea id="tplText" rows="12" placeholder="Здравствуйте, {name}!&#10;&#10;Текст сообщения..."></textarea>
+      <div class="hint">
+        <code>{name}</code> &mdash; имя &nbsp; <code>*жирный*</code> &nbsp; <code>_курсив_</code> &nbsp; <code>~зачёркнутый~</code>
+      </div>
+      <div class="tpl-editor-btns">
+        <button class="btn-sm btn-sm-ghost" id="tplCancel">Отмена</button>
+        <button class="btn-sm btn-sm-primary" id="tplSave">Сохранить</button>
+      </div>
+    </div>
+    <button class="btn-add-tpl" id="btnNewTpl">+ Добавить шаблон</button>
+  </div>
+
+  <div class="selected-badge" id="selectedBadge">
+    <span>&#127922;</span>
+    <span>Выбрано <strong id="selectedCount">0</strong> &mdash; при рассылке будут чередоваться случайно</span>
+  </div>
+
+  <!-- ===== DIRECT MESSAGE ===== -->
+  <div class="ornament">&#9670; Или прямое сообщение &#9670;</div>
+
+  <textarea id="message" rows="9" placeholder="Текст для отправки, если шаблоны не выбраны..."></textarea>
+  <div class="hint">Используется только если ни один шаблон не отмечен галочкой.</div>
+
+  <!-- ===== MEDIA ===== -->
+  <div class="ornament">&#9670; Вложение &#9670;</div>
+
+  <label class="file-drop" id="fileDrop">
+    <input type="file" id="media" accept="image/*,video/*">
+    <div class="file-drop-icon">&#128206;</div>
+    <div class="file-drop-text" id="fileDropText">Нажмите, чтобы выбрать фото или видео</div>
+    <div id="mediaInfo"></div>
+  </label>
+  <button id="clearMedia" style="display:none">&#10005; убрать файл</button>
+
+  <!-- Delay -->
+  <div class="delay-row">
+    <span class="section-label">Задержка</span>
+    <input type="number" id="delay" value="10" min="3">
+    <span class="delay-unit">сек</span>
+  </div>
+
+  <!-- Buttons -->
+  <div class="buttons">
+    <button id="start" class="btn-start">&#9654; Начать рассылку</button>
+    <button id="stop" class="btn-stop">Стоп</button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats" id="stats">
+    <div class="stats-card">
+      <div class="progress-header">
+        <span class="progress-label">Прогресс</span>
+        <span class="progress-count"><span id="progressNum">0</span> / <span id="progressTotal">0</span></span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="counters">
+        <div class="counter c-success"><div class="counter-value" id="cSuccess">0</div><div class="counter-label">Отправлено</div></div>
+        <div class="counter c-error"><div class="counter-value" id="cError">0</div><div class="counter-label">Ошибки</div></div>
+        <div class="counter c-pending"><div class="counter-value" id="cPending">0</div><div class="counter-label">Осталось</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+    <div class="results-card">
+      <div class="results-header">Журнал</div>
+      <div id="resultsList"></div>
+    </div>
+  </div>
+
+</div>
+
+<div id="toast"></div>
+<script src="popup.js"></script>
+</body>
+</html>
